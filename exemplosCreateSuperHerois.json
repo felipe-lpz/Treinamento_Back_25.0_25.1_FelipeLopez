@@ -1,0 +1,47 @@
+[
+  {
+    "id": "b040d739-c498-488a-9fff-f7ab6a3c9ff0",
+    "name": "Superman",
+    "power": "Força sobre-humana"
+  },
+  {
+    "id": "0c91928f-cdbb-4be8-8ab1-850e8767e131",
+    "name": "Capitão América",
+    "power": "Super força e escudo vibranium"
+  },
+  {
+    "id": "916c21b7-97fb-4e63-9116-3e9f8a35c1ca",
+    "name": "Homem-Aranha",
+    "power": "Sentido aranha e agilidade"
+  },
+  {
+    "id": "12f38993-69e8-4fe2-aedf-07f975b2a93e",
+    "name": "Tocha Humana",
+    "power": "Controle do fogo e voo"
+  },
+  {
+    "id": "278cba29-b7fb-4fe5-9c4e-60f4e87ae82e",
+    "name": "Flash",
+    "power": "Super velocidade"
+  },
+  {
+    "id": "8e36f254-c1de-44e0-8b5b-0394e118e6d3",
+    "name": "Professor X",
+    "power": "Telepatia avançada"
+  },
+  {
+    "id": "39fd328a-44d9-4eb2-b808-c18bcba55c51",
+    "name": "Hulk",
+    "power": "Força descomunal e resistência"
+  },
+  {
+    "id": "2c91a30c-9925-4bee-9903-cac0c7490d7f",
+    "name": "Doutor Estranho",
+    "power": "Manipulação do tempo e da realidade"
+  },
+  {
+    "id": "e8c52ec6-53b6-40b2-a677-42704a397ede",
+    "name": "Thor",
+    "power": "Deus do trovão e martelo Mjölnir"
+  }
+]

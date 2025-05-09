@@ -1,0 +1,36 @@
+{
+  "name": "piupiuwer-backend",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "repository": "COLOCAR SEU LINK DE REPOSITORIO AQUI",
+  "author": "SEU NOME AQUI <SEU EMAIL AQUI>",
+  "license": "MIT",
+  "scripts": {
+    "dev:server": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "express": "^4.18.4",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/date-fns": "^2.6.0",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^22.15.3",
+    "@types/uuid": "^9.0.2",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "prettier": "^3.2.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "5.3.3"
+  }
+}
