@@ -127,14 +127,39 @@ class UserService {
   /**
    * Remove um usuário
    */
-  public delete(id: string): boolean {
-    // Verificar se o usuário existe
-    const existingUser = userRepository.getById(id);
-    if (!existingUser) return false;
-
-    // Deletar o usuário
-    return userRepository.delete(id);
+  // src/services/userService.ts
+public delete(id: string): boolean {
+  // Verificar se o usuário existe
+  const existingUser = userRepository.getById(id);
+  if (!existingUser) {
+    console.log(`Usuário ${id} não encontrado para exclusão.`);
+    return false;
   }
+
+  console.log(`Iniciando exclusão do usuário ${id} (${existingUser.username}).`);
+  
+  // Excluir todos os pius do usuário
+  const userPius = piuRepository.getByUserId(id);
+  console.log(`Encontrados ${userPius.length} pius para excluir.`);
+  
+  // Excluir cada piu individualmente
+  userPius.forEach(piu => {
+    const deleted = piuRepository.delete(piu.id);
+    console.log(`Piu ${piu.id} excluído: ${deleted}`);
+  });
+  
+  // Verificar se todos os pius foram excluídos
+  const remainingPius = piuRepository.getByUserId(id);
+  if (remainingPius.length > 0) {
+    console.log(`AVISO: Ainda restam ${remainingPius.length} pius do usuário após tentativa de exclusão.`);
+  }
+  
+  // Deletar o usuário
+  const userDeleted = userRepository.delete(id);
+  console.log(`Usuário ${id} excluído: ${userDeleted}`);
+  
+  return userDeleted;
+}
 }
 
 export default new UserService();

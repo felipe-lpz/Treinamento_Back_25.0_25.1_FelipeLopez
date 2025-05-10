@@ -40,6 +40,9 @@ piusRouter.get('/', (req, res) => {
  * Lista todos os pius de um usuário (feature bônus)
  */
 piusRouter.get('/user/:userId', (req, res) => {
+  // Verificar se userId está sendo recebido corretamente
+  console.log('UserId recebido:', req.params.userId);
+  
   const pius = piuService.getPiusByUserId(req.params.userId);
   return res.json(pius);
 });
@@ -48,14 +51,9 @@ piusRouter.get('/user/:userId', (req, res) => {
  * Rota: GET /pius/search/:query
  * Busca pius por texto (feature bônus)
  */
-piusRouter.get('/search/:query', (req, res) => {
-  console.log('=== ROTA DE BUSCA ACESSADA ===');
-  console.log('Parâmetros:', req.params);
-  console.log('Query:', req.params.query);
-  
-  const pius = piuService.searchPius(req.params.query || '');
-  console.log('Resultados:', pius.length);
-  
+piusRouter.get('/search', (req, res) => {
+  const query = req.query.q as string || '';
+  const pius = piuService.searchPius(query);
   return res.json(pius);
 });
 
@@ -64,11 +62,13 @@ piusRouter.get('/search/:query', (req, res) => {
  * Retorna N pius aleatórios (feature bônus)
  */
 piusRouter.get('/trending/:count', (req, res) => {
+  // Verificar se count está sendo recebido corretamente
+  console.log('Count recebido:', req.params.count);
+  
   const count = parseInt(req.params.count, 10) || 5;
   const pius = piuService.getRandomPius(count);
   return res.json(pius);
 });
-
 /**
  * Rota: GET /pius/:id
  * Busca um piu pelo ID (feature bônus)
@@ -88,9 +88,27 @@ piusRouter.get('/:id', (req, res) => {
  * Rota: DELETE /pius/:id
  * Remove um piu
  */
+// src/routes/pius.routes.ts - no endpoint DELETE
 piusRouter.delete('/:id', (req, res) => {
+  console.log('Tentando excluir piu com ID:', req.params.id);
+  
+  const piuBeforeDeletion = piuService.findById(req.params.id);
+  
+  if (!piuBeforeDeletion) {
+    console.log('Piu não encontrado para exclusão.');
+    return res.status(404).json({ message: 'Piu não encontrado' });
+  }
+  
+  const userId = piuBeforeDeletion.userId;
+  console.log(`Este piu pertence ao usuário: ${userId}`);
+  
   const deleted = piuService.delete(req.params.id);
-
+  console.log(`Resultado da exclusão: ${deleted}`);
+  
+  // Verificar se o piu realmente foi excluído
+  const piuAfterDeletion = piuService.findById(req.params.id);
+  console.log(`Piu ainda existe após exclusão: ${piuAfterDeletion !== undefined}`);
+  
   if (!deleted) {
     return res.status(404).json({ message: 'Piu não encontrado' });
   }

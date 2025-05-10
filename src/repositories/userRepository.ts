@@ -170,20 +170,24 @@ class UserRepository {
    * Remove um usuário
    * Complexidade: O(1)
    */
-  public delete(id: string): boolean {
-    const user = this.users.get(id);
-    
-    if (!user) return false;
-    
-    // Remove índices secundários
-    this.emailIndex.delete(user.email);
-    this.usernameIndex.delete(user.username);
-    this.cpfIndex.delete(user.cpf);
-    this.phoneIndex.delete(user.phone);
-    
-    // Remove usuário
-    return this.users.delete(id);
-  }
+ public delete(id: string): boolean {
+  const user = this.users.get(id);
+  
+  if (!user) return false;
+  
+  // Remover dos índices secundários
+  this.emailIndex.delete(user.email);
+  this.usernameIndex.delete(user.username);
+  this.cpfIndex.delete(user.cpf);
+  this.phoneIndex.delete(user.phone);
+  
+  // Remover o usuário do mapa principal
+  const result = this.users.delete(id);
+  
+  // Verificar se a remoção foi bem-sucedida
+  
+  return result;
+}
 }
 
 export default new UserRepository();
