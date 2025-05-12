@@ -77,7 +77,7 @@ usersRouter.get('/:id', (req, res) => {
  */
 usersRouter.patch('/:id', (req, res) => {
   const { username, email, name, birth, cpf, phone, about } = req.body;
-  
+
   // Converter string de data para objeto Date se fornecido
   const birthDate = birth ? new Date(birth) : undefined;
 

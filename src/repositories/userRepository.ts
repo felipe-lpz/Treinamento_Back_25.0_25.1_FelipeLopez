@@ -1,5 +1,6 @@
 // src/repositories/userRepository.ts
 import { randomUUID } from 'crypto';
+
 import User from '../models/user';
 
 /**
@@ -34,7 +35,7 @@ class UserRepository {
    * Permite acesso direto aos usuários por ID - O(1)
    */
   private users: Map<string, User>;
-  
+
   /**
    * Índices secundários para busca rápida O(1)
    * Permitem verificar unicidade e buscar por campos específicos
@@ -61,7 +62,7 @@ class UserRepository {
   public create(data: ICreateUserDTO): User {
     // Gera um ID único usando UUID v4
     const id = randomUUID();
-    
+
     // Cria a instância do usuário
     const user = new User(
       id,
@@ -73,16 +74,16 @@ class UserRepository {
       data.phone,
       data.about
     );
-    
+
     // Armazena no Map principal
     this.users.set(id, user);
-    
+
     // Atualiza os índices secundários
     this.emailIndex.set(data.email, id);
     this.usernameIndex.set(data.username, id);
     this.cpfIndex.set(data.cpf, id);
     this.phoneIndex.set(data.phone, id);
-    
+
     return user;
   }
 
@@ -165,40 +166,40 @@ class UserRepository {
    */
   public update(data: IUpdateUserDTO): User | null {
     const user = this.users.get(data.id);
-    
+
     if (!user) return null;
-    
+
     // Atualiza índices secundários se necessário
     if (data.data.email && data.data.email !== user.email) {
       this.emailIndex.delete(user.email);
       this.emailIndex.set(data.data.email, data.id);
     }
-    
+
     if (data.data.username && data.data.username !== user.username) {
       this.usernameIndex.delete(user.username);
       this.usernameIndex.set(data.data.username, data.id);
     }
-    
+
     if (data.data.cpf && data.data.cpf !== user.cpf) {
       this.cpfIndex.delete(user.cpf);
       this.cpfIndex.set(data.data.cpf, data.id);
     }
-    
+
     if (data.data.phone && data.data.phone !== user.phone) {
       this.phoneIndex.delete(user.phone);
       this.phoneIndex.set(data.data.phone, data.id);
     }
-    
+
     // Atualiza usuário preservando propriedades existentes
     const updatedUser = {
       ...user,
       ...data.data,
-      updatedAt: new Date() // Atualiza a data de modificação
+      updatedAt: new Date(), // Atualiza a data de modificação
     };
-    
+
     // Salva no Map principal
     this.users.set(data.id, updatedUser);
-    
+
     return updatedUser;
   }
 
@@ -210,15 +211,15 @@ class UserRepository {
    */
   public delete(id: string): boolean {
     const user = this.users.get(id);
-    
+
     if (!user) return false;
-    
+
     // Remove índices secundários
     if (user.email) this.emailIndex.delete(user.email);
     if (user.username) this.usernameIndex.delete(user.username);
     if (user.cpf) this.cpfIndex.delete(user.cpf);
     if (user.phone) this.phoneIndex.delete(user.phone);
-    
+
     // Remove usuário do armazenamento principal
     return this.users.delete(id);
   }

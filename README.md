@@ -13,8 +13,8 @@ Primeiramente, gostaria de parabenizar vocês por sobreviverem ao treinamento de
 
 Segundamente, o Backend é uma das áreas mais desafiadoras do mercado de aplicativos e exige muita atenção para aprender a codar da forma correta. Então: assistam os vídeos no YouTube do NTec, leiam os arquivos de exemplo que preparei para vocês (o projeto dos Heróis), e **qualquer dúvida**:
 
-- 📌 Primeiro: pesquisem na internet  
-- 📌 Depois: joguem no ChatGPT ou DeepSeek  
+- 📌 Primeiro: pesquisem na internet
+- 📌 Depois: joguem no ChatGPT ou DeepSeek
 - 📌 Por fim: **perguntem aos monitores**. Usem a monitoria a favor de vocês!
 
 Se vocês acharam Front difícil... se preparem para o Back 😈
@@ -35,9 +35,11 @@ yarn dev:server
 ## ✅ O que cada comando faz:
 
 ### `yarn`
+
 Instala todas as dependências do projeto listadas no `package.json`. (só é preciso fazer apenas uma vez)
 
 ### `yarn dev:server`
+
 Roda o servidor local de desenvolvimento. Sempre use esse comando enquanto estiver programando! O servidor reinicia automaticamente quando você salva mudanças no código.
 
 ---
@@ -45,15 +47,19 @@ Roda o servidor local de desenvolvimento. Sempre use esse comando enquanto estiv
 ## 💡 Comandos úteis durante o desenvolvimento:
 
 ### `yarn lint`
+
 Verifica se seu código segue as boas práticas de formatação e organização. Ideal rodar antes de subir para o GitHub.
 
 ### `yarn format`
+
 Aplica o Prettier para formatar seu código automaticamente. Deixe seu código bonito e padronizado!
 
 ### `yarn build`
+
 Compila os arquivos `.ts` (TypeScript) e gera os arquivos JavaScript dentro da pasta `dist/`. Serve para preparar o projeto para produção. **Você não vai usar agora.**
 
 ### `yarn start`
+
 Executa o código **já compilado** da pasta `dist/`. Este comando é usado apenas em ambiente de produção. **Você não vai usar agora.**
 
 ---
@@ -70,6 +76,7 @@ src/
 ```
 
 Cada camada tem sua função:
+
 - As **rotas** recebem as requisições HTTP.
 - Os **services** decidem o que fazer com os dados.
 - Os **repositories** cuidam da "fonte de dados" (aqui é um array, futuramente pode ser um banco).
@@ -86,6 +93,7 @@ Lembrem-se: **os monitores estão aqui para ajudar vocês**!
 Se você travar em algo, ou tiver alguma dúvida... **chame a gente no Discord!**
 
 ### Monitores disponíveis:
+
 - João Leal
 - Augusto Melo
 - João Pedro
@@ -112,5 +120,3 @@ Quer criar suas próprias rotas do zero?
 👉 Leia o guia completo aqui: [Como Criar Suas Próprias Rotas](./Como_Criar_Rotas.md)
 
 **Bons códigos e... que o backend esteja com vocês!** 🚀
-
-

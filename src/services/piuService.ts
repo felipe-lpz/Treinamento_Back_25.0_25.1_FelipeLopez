@@ -13,7 +13,10 @@ class PiuService {
    * @returns Objeto contendo o piu criado ou mensagem de erro
    * @complexity O(1) - Operações em Maps
    */
-  public create(userId: string, text: string): { piu: Piu } | { error: string } {
+  public create(
+    userId: string,
+    text: string
+  ): { piu: Piu } | { error: string } {
     // Validar se texto está presente
     if (!text) {
       return { error: 'O texto do piu é obrigatório' };
@@ -90,11 +93,11 @@ class PiuService {
    */
   public searchPius(query: string): Piu[] {
     const allPius = piuRepository.getAll();
-    
+
     // Busca case insensitive
     const lowercaseQuery = query.toLowerCase();
-    
-    return allPius.filter(piu => 
+
+    return allPius.filter(piu =>
       piu.text.toLowerCase().includes(lowercaseQuery)
     );
   }
@@ -107,19 +110,19 @@ class PiuService {
    */
   public getRandomPius(count: number): Piu[] {
     const allPius = piuRepository.getAll();
-    
+
     // Se houver menos pius que o solicitado, retorna todos
     if (allPius.length <= count) {
       return allPius;
     }
-    
+
     // Embaralha o array usando o algoritmo de Fisher-Yates (eficiente)
     const shuffled = [...allPius];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    
+
     // Retorna os primeiros N elementos
     return shuffled.slice(0, count);
   }

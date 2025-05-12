@@ -11,22 +11,25 @@ Este guia mostra o **passo a passo completo** para adicionar uma nova funcionali
 
 Você vai criar os seguintes arquivos:
 
-1. `src/models/Product.ts` → define os dados do produto  
-2. `src/repositories/ProductRepository.ts` → armazena e gerencia os produtos  
-3. `src/services/ProductService.ts` → lógica de criação, listagem, edição, exclusão  
-4. `src/routes/products.routes.ts` → endpoints da API (GET, POST, PUT, DELETE)  
-5. `src/routes/index.ts` → conectar o router à aplicação  
+1. `src/models/Product.ts` → define os dados do produto
+2. `src/repositories/ProductRepository.ts` → armazena e gerencia os produtos
+3. `src/services/ProductService.ts` → lógica de criação, listagem, edição, exclusão
+4. `src/routes/products.routes.ts` → endpoints da API (GET, POST, PUT, DELETE)
+5. `src/routes/index.ts` → conectar o router à aplicação
 
 ---
 
 ## 🛠️ Etapas para construir sua funcionalidade
 
 ### 1️⃣ Criar o **Model**
+
 Defina os campos que sua entidade terá (ex: id, nome, preço).  
 Use como base o exemplo do arquivo `Hero.ts`.
 
 ### 2️⃣ Criar o **Repository**
+
 Implemente os métodos:
+
 - `create()`
 - `getAll()`
 - `getById()`
@@ -36,14 +39,17 @@ Implemente os métodos:
 Baseie-se em `HeroRepository.ts`.
 
 ### 3️⃣ Criar o **Service**
+
 Essa é a camada que chama o repositório e implementa a regra de negócio.  
 Siga o padrão do `HeroService.ts`.
 
 ### 4️⃣ Criar as **Rotas**
+
 Crie as rotas REST para sua entidade: `GET`, `POST`, `PUT`, `DELETE`.  
 Consulte `heroes.routes.ts` como referência.
 
 ### 5️⃣ Conectar no `index.ts`
+
 Não se esqueça de adicionar seu novo router em `src/routes/index.ts`.
 
 ---

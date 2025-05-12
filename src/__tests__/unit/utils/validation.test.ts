@@ -1,4 +1,9 @@
-import { validateCPF, validatePhone, formatCPF, formatPhone } from '../../../utils/validation';
+import {
+  validateCPF,
+  validatePhone,
+  formatCPF,
+  formatPhone,
+} from '../../../utils/validation';
 
 describe('Validation Utils', () => {
   describe('CPF Validation', () => {

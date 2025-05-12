@@ -25,7 +25,7 @@ describe('UserService', () => {
         phone: '(11) 98765-4321',
         about: 'Test bio',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       // Mock das funções de verificação
@@ -49,12 +49,14 @@ describe('UserService', () => {
       // Assert
       expect(result).toHaveProperty('user');
       expect(userRepository.create).toHaveBeenCalledTimes(1);
-      expect(userRepository.create).toHaveBeenCalledWith(expect.objectContaining({
-        username: mockUser.username,
-        email: mockUser.email,
-        cpf: '123.456.789-09', // Deve estar formatado
-        phone: '(11) 98765-4321' // Deve estar formatado
-      }));
+      expect(userRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          username: mockUser.username,
+          email: mockUser.email,
+          cpf: '123.456.789-09', // Deve estar formatado
+          phone: '(11) 98765-4321', // Deve estar formatado
+        })
+      );
     });
 
     it('should reject if email already exists', () => {
@@ -70,44 +72,44 @@ describe('UserService', () => {
         '123.456.789-09',
         '(11) 98765-4321',
         'Test bio'
-    );
+      );
 
       // Assert
-    expect(result).toHaveProperty('error');
-    expect(result).toHaveProperty('error');
-    if ('error' in result) {
-    expect(result.error).toContain('email já está em uso');
-}
-    expect(userRepository.create).not.toHaveBeenCalled();
+      expect(result).toHaveProperty('error');
+      expect(result).toHaveProperty('error');
+      if ('error' in result) {
+        expect(result.error).toContain('email já está em uso');
+      }
+      expect(userRepository.create).not.toHaveBeenCalled();
     });
 
     // Adicione mais testes para os outros casos de erro...
-});
+  });
 
-describe('delete', () => {
+  describe('delete', () => {
     it('should delete user and all related pius', () => {
       // Arrange
-    const userId = 'user-id';
-    const mockUser = { id: userId, name: 'Test User' };
-    const mockPius = [
+      const userId = 'user-id';
+      const mockUser = { id: userId, name: 'Test User' };
+      const mockPius = [
         { id: 'piu1', userId, text: 'Test piu 1' },
-        { id: 'piu2', userId, text: 'Test piu 2' }
-    ];
+        { id: 'piu2', userId, text: 'Test piu 2' },
+      ];
 
-    (userRepository.getById as jest.Mock).mockReturnValue(mockUser);
-    (piuRepository.getByUserId as jest.Mock).mockReturnValue(mockPius);
-    (piuRepository.delete as jest.Mock).mockReturnValue(true);
-    (userRepository.delete as jest.Mock).mockReturnValue(true);
+      (userRepository.getById as jest.Mock).mockReturnValue(mockUser);
+      (piuRepository.getByUserId as jest.Mock).mockReturnValue(mockPius);
+      (piuRepository.delete as jest.Mock).mockReturnValue(true);
+      (userRepository.delete as jest.Mock).mockReturnValue(true);
 
       // Act
-    const result = userService.delete(userId);
+      const result = userService.delete(userId);
 
       // Assert
-    expect(result).toBe(true);
-    expect(piuRepository.delete).toHaveBeenCalledTimes(2);
-    expect(piuRepository.delete).toHaveBeenCalledWith('piu1');
-    expect(piuRepository.delete).toHaveBeenCalledWith('piu2');
-    expect(userRepository.delete).toHaveBeenCalledWith(userId);
+      expect(result).toBe(true);
+      expect(piuRepository.delete).toHaveBeenCalledTimes(2);
+      expect(piuRepository.delete).toHaveBeenCalledWith('piu1');
+      expect(piuRepository.delete).toHaveBeenCalledWith('piu2');
+      expect(userRepository.delete).toHaveBeenCalledWith(userId);
     });
 
     it('should return false if user not found', () => {

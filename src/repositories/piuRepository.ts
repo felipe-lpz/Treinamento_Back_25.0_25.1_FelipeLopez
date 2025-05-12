@@ -12,7 +12,7 @@ interface ICreatePiuDTO {
 
 /**
  * Repositório que gerencia operações de CRUD para pius
- * Implementado com estruturas de dados eficientes (Maps e Sets) para 
+ * Implementado com estruturas de dados eficientes (Maps e Sets) para
  * garantir alta performance nas operações mais comuns.
  */
 class PiuRepository {
@@ -21,7 +21,7 @@ class PiuRepository {
    * Permite acesso direto aos pius por ID - O(1)
    */
   private pius: Map<string, Piu>;
-  
+
   /**
    * Índice secundário: userId -> Set de piuIds
    * Permite recuperar rapidamente todos os pius de um usuário - O(1)
@@ -42,20 +42,20 @@ class PiuRepository {
   public create(data: ICreatePiuDTO): Piu {
     // Gera um ID único usando UUID v4
     const id = randomUUID();
-    
+
     // Cria a instância do piu
     const piu = new Piu(id, data.userId, data.text);
-    
+
     // Armazena no Map principal
     this.pius.set(id, piu);
-    
+
     // Adiciona ao índice de pius por usuário
     if (!this.userPiusIndex.has(data.userId)) {
       this.userPiusIndex.set(data.userId, new Set<string>());
     }
-    
+
     this.userPiusIndex.get(data.userId)?.add(id);
-    
+
     return piu;
   }
 
@@ -86,9 +86,9 @@ class PiuRepository {
    */
   public getByUserId(userId: string): Piu[] {
     const piuIds = this.userPiusIndex.get(userId);
-    
+
     if (!piuIds) return [];
-    
+
     // Converte o Set para Array e busca cada piu
     // O uso de ! (non-null assertion) é seguro aqui pois sabemos
     // que os IDs estão no Map principal
@@ -103,13 +103,13 @@ class PiuRepository {
    */
   public delete(id: string): boolean {
     const piu = this.pius.get(id);
-    
+
     if (!piu) return false;
-    
+
     // Remove do índice de pius por usuário
     const userPius = this.userPiusIndex.get(piu.userId);
     userPius?.delete(id);
-    
+
     // Remove o piu do armazenamento principal
     return this.pius.delete(id);
   }

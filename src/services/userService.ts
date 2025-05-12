@@ -2,7 +2,12 @@
 import User from '../models/user';
 import piuRepository from '../repositories/piuRepository';
 import userRepository from '../repositories/userRepository';
-import { validateCPF, validatePhone, formatCPF, formatPhone } from '../utils/validation';
+import {
+  validateCPF,
+  validatePhone,
+  formatCPF,
+  formatPhone,
+} from '../utils/validation';
 
 /**
  * Service que implementa as regras de negócio para usuários
@@ -52,13 +57,15 @@ class UserService {
 
     // Formatar CPF e telefone
     const formattedCPF = formatCPF(cpf);
-    const formattedPhone = phone.match(/^\(\d{2}\)\s\d{5}-\d{4}$/) ? phone : formatPhone(phone);
-    
-    // Validar formato do telefone após formatação 
+    const formattedPhone = phone.match(/^\(\d{2}\)\s\d{5}-\d{4}$/)
+      ? phone
+      : formatPhone(phone);
+
+    // Validar formato do telefone após formatação
     if (!validatePhone(formattedPhone)) {
       return { error: 'O telefone deve estar no formato (XX) XXXXX-XXXX' };
     }
-    
+
     // Verificar se já existe usuário com este CPF
     if (userRepository.cpfExists(formattedCPF)) {
       return { error: 'Este CPF já está cadastrado' };
@@ -137,32 +144,33 @@ class UserService {
       if (!validateCPF(data.cpf)) {
         return { error: 'O CPF informado não é válido' };
       }
-      
+
       // Formatar CPF
       const formattedCPF = formatCPF(data.cpf);
-      
+
       if (userRepository.cpfExists(formattedCPF)) {
         return { error: 'Este CPF já está cadastrado' };
       }
-      
+
       // Atualizar para o formato correto
       data.cpf = formattedCPF;
     }
 
     if (data.phone && data.phone !== existingUser.phone) {
       // Formatar telefone se necessário
-      const formattedPhone = data.phone.match(/^\(\d{2}\)\s\d{5}-\d{4}$/) ? 
-        data.phone : formatPhone(data.phone);
-      
+      const formattedPhone = data.phone.match(/^\(\d{2}\)\s\d{5}-\d{4}$/)
+        ? data.phone
+        : formatPhone(data.phone);
+
       // Validar formato do telefone após formatação
       if (!validatePhone(formattedPhone)) {
         return { error: 'O telefone deve estar no formato (XX) XXXXX-XXXX' };
       }
-      
+
       if (userRepository.phoneExists(formattedPhone)) {
         return { error: 'Este telefone já está cadastrado' };
       }
-      
+
       // Atualizar para o formato correto
       data.phone = formattedPhone;
     }
@@ -193,12 +201,12 @@ class UserService {
 
     // Obter todos os pius do usuário
     const userPius = piuRepository.getByUserId(id);
-    
+
     // Deletar todos os pius do usuário
     userPius.forEach(piu => {
       piuRepository.delete(piu.id);
     });
-    
+
     // Deletar o usuário
     return userRepository.delete(id);
   }

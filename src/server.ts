@@ -23,13 +23,16 @@ app.use(morgan('dev'));
 // Middleware de CORS para permitir requisições de diferentes origens
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
     return res.status(200).json({});
   }
-  
+
   next();
 });
 
@@ -38,18 +41,18 @@ app.use(routes);
 
 // Rota simples para testar se o servidor está online
 app.get('/health', (req, res) => {
-  res.json({ 
+  res.json({
     status: 'online',
     timestamp: new Date(),
-    message: 'API do PiuPiuwer está funcionando corretamente!'
+    message: 'API do PiuPiuwer está funcionando corretamente!',
   });
 });
 
 // Middleware para tratar rotas não encontradas
 app.use((req, res) => {
-  res.status(404).json({ 
+  res.status(404).json({
     message: 'Rota não encontrada',
-    path: req.originalUrl
+    path: req.originalUrl,
   });
 });
 
@@ -58,15 +61,14 @@ app.use((req, res) => {
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({
     message: 'Erro interno do servidor',
-    error: process.env.NODE_ENV === 'production' ? undefined : error.message
+    error: process.env.NODE_ENV === 'production' ? undefined : error.message,
   });
 });
 
 // Quando em ambiente de teste, não inicia o servidor
 // para evitar conflitos de porta nos testes
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-  });
+  app.listen(PORT, () => {});
 }
 
 export default app;

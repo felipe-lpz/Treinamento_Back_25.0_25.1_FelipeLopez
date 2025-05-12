@@ -23,7 +23,7 @@ describe('User Routes', () => {
         birth: '1990-01-01',
         cpf: '123.456.789-09',
         phone: '(11) 98765-4321',
-        about: 'Test bio'
+        about: 'Test bio',
       };
 
       const mockUser = {
@@ -31,7 +31,7 @@ describe('User Routes', () => {
         ...userData,
         birth: new Date(userData.birth),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       // Mock repository methods
@@ -80,22 +80,20 @@ describe('User Routes', () => {
           id: 'user1',
           username: 'user1',
           email: 'user1@example.com',
-          name: 'User One'
+          name: 'User One',
         },
         {
           id: 'user2',
           username: 'user2',
           email: 'user2@example.com',
-          name: 'User Two'
-        }
+          name: 'User Two',
+        },
       ];
 
       (userRepository.getAll as jest.Mock).mockReturnValue(mockUsers);
 
       // Act - usando testRequest
-      const response = await testRequest
-        .get('/users')
-        .expect(200);
+      const response = await testRequest.get('/users').expect(200);
 
       // Assert
       expect(response.body).toHaveLength(2);

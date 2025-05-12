@@ -1,6 +1,6 @@
 /**
  * Model que representa um piu (tweet) no sistema PiuPiuwer
- * 
+ *
  * A classe define a estrutura de dados para os pius, incluindo:
  * - Identificação única (id)
  * - Conteúdo (text)
@@ -12,28 +12,28 @@ class Piu {
    * Identificador único do piu
    */
   id: string;
-  
+
   /**
    * ID do usuário que criou o piu
    */
   userId: string;
-  
+
   /**
    * Conteúdo do piu (limitado a 140 caracteres)
    */
   text: string;
-  
+
   /**
    * Data de criação do piu
    */
   createdAt: Date;
-  
+
   /**
    * Data da última atualização do piu
    * Obs: Inicialmente igual à data de criação
    */
   updatedAt: Date;
-  
+
   /**
    * Contador de likes recebidos
    */
@@ -51,7 +51,7 @@ class Piu {
     this.text = text;
     this.createdAt = new Date();
     this.updatedAt = new Date(); // Inicialmente igual à data de criação
-    this.likes = 0;              // Começa sem likes
+    this.likes = 0; // Começa sem likes
   }
 }
 

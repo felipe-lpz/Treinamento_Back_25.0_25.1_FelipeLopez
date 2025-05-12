@@ -20,12 +20,12 @@ describe('Piu Routes', () => {
       // Arrange
       const piuData = {
         userId: 'user-123',
-        text: 'Hello, world!'
+        text: 'Hello, world!',
       };
 
       const mockUser = {
         id: piuData.userId,
-        name: 'Test User'
+        name: 'Test User',
       };
 
       const mockPiu = {
@@ -33,7 +33,7 @@ describe('Piu Routes', () => {
         ...piuData,
         createdAt: new Date(),
         updatedAt: new Date(),
-        likes: 0
+        likes: 0,
       };
 
       (userRepository.getById as jest.Mock).mockReturnValue(mockUser);
@@ -58,7 +58,7 @@ describe('Piu Routes', () => {
         .post('/pius')
         .send({
           // Missing required fields
-          userId: 'user-123'
+          userId: 'user-123',
         })
         .expect(400);
 
@@ -76,7 +76,7 @@ describe('Piu Routes', () => {
         .post('/pius')
         .send({
           userId: 'non-existent',
-          text: 'Hello'
+          text: 'Hello',
         })
         .expect(400);
 
@@ -97,7 +97,7 @@ describe('Piu Routes', () => {
           text: 'Piu 1',
           createdAt: new Date(),
           updatedAt: new Date(),
-          likes: 0
+          likes: 0,
         },
         {
           id: 'piu-2',
@@ -105,16 +105,14 @@ describe('Piu Routes', () => {
           text: 'Piu 2',
           createdAt: new Date(),
           updatedAt: new Date(),
-          likes: 0
-        }
+          likes: 0,
+        },
       ];
 
       (piuRepository.getAll as jest.Mock).mockReturnValue(mockPius);
 
       // Act - usando testRequest
-      const response = await testRequest
-        .get('/pius')
-        .expect(200);
+      const response = await testRequest.get('/pius').expect(200);
 
       // Assert
       expect(response.body).toHaveLength(2);
@@ -133,15 +131,13 @@ describe('Piu Routes', () => {
         text: 'Test piu',
         createdAt: new Date(),
         updatedAt: new Date(),
-        likes: 0
+        likes: 0,
       };
 
       (piuRepository.getById as jest.Mock).mockReturnValue(mockPiu);
 
       // Act - usando testRequest
-      const response = await testRequest
-        .get('/pius/piu-123')
-        .expect(200);
+      const response = await testRequest.get('/pius/piu-123').expect(200);
 
       // Assert
       expect(response.body).toHaveProperty('id', 'piu-123');
@@ -153,9 +149,7 @@ describe('Piu Routes', () => {
       (piuRepository.getById as jest.Mock).mockReturnValue(undefined);
 
       // Act - usando testRequest
-      const response = await testRequest
-        .get('/pius/non-existent')
-        .expect(404);
+      const response = await testRequest.get('/pius/non-existent').expect(404);
 
       // Assert
       expect(response.body).toHaveProperty('message');
