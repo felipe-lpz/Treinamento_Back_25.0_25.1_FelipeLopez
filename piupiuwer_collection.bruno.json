@@ -1,0 +1,357 @@
+{
+  "name": "PiuPiuwer API",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "Atualizar Usuário",
+      "filename": "Atualizar Usuário.bru",
+      "seq": 4,
+      "request": {
+        "url": "{{baseUrl}}/users/{{id}}",
+        "method": "PATCH",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"name\": \"Serjão muito Sacana\",\n  \"about\": \"Perfil 100% veridico!\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "id",
+              "value": "e19b1afc-9e18-49ea-b077-83d8eab463be",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Buscar Pius por Texto",
+      "filename": "Buscar Pius por Texto.bru",
+      "seq": 9,
+      "request": {
+        "url": "{{baseUrl}}/pius/search/{{query}}",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "query",
+              "value": "Nasa",
+              "enabled": true,
+              "local": false
+            }
+          ],
+          "res": [
+            {
+              "name": "",
+              "value": "",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Buscar Usuário",
+      "filename": "Buscar Usuário.bru",
+      "seq": 3,
+      "request": {
+        "url": "{{baseUrl}}/users/:id",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "id",
+            "value": "",
+            "type": "path",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "id",
+              "value": "e19b1afc-9e18-49ea-b077-83d8eab463be",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Criar Piu",
+      "filename": "Criar Piu.bru",
+      "seq": 6,
+      "request": {
+        "url": "{{baseUrl}}/pius/",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"text\": \"Nasa mentiu novamente, faça o teste de curvatura!!! Não acredite neles, muito menos no comprado do Elon Musk\",\n  \"userId\": \"e19b1afc-9e18-49ea-b077-83d8eab463be\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "id",
+              "value": "dd1c1bd9-9a6d-4f4d-bc04-5145574e4e5b",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Criar Usuário",
+      "filename": "Criar Usuário.bru",
+      "seq": 2,
+      "request": {
+        "url": "{{baseUrl}}/users",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"username\": \"Serjão dos foguetes\",\n  \"email\": \"nasa_mentiu@terraplana.com\",\n  \"name\": \"Serjão Sacana\",\n  \"birth\": \"1991-20-31T00:00:00.000Z\",\n  \"cpf\": \"502.296.717-05\",\n  \"phone\": \"(11) 95876-3213\",\n  \"about\": \"Olá, eu odeio a nasa e Elon musk!\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Deletar Piu",
+      "filename": "Deletar Piu.bru",
+      "seq": 11,
+      "request": {
+        "url": "{{baseUrl}}/pius/{{id}}",
+        "method": "DELETE",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "id",
+              "value": "f8f0e0c6-f693-413d-a3b8-ea19ae766c37",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Deletar Usuário",
+      "filename": "Deletar Usuário.bru",
+      "seq": 5,
+      "request": {
+        "url": "{{baseUrl}}/users/{{id}}",
+        "method": "DELETE",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "id",
+              "value": "dd1c1bd9-9a6d-4f4d-bc04-5145574e4e5b",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Pius Aleatórios",
+      "filename": "Pius Aleatórios.bru",
+      "seq": 10,
+      "request": {
+        "url": "{{baseUrl}}/pius/trending/{{count}}",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "count",
+              "value": "3",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Pius por Usuário",
+      "filename": "Pius por Usuário.bru",
+      "seq": 8,
+      "request": {
+        "url": "{{baseUrl}}/pius/user/{{userId}}",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "userId",
+              "value": "e19b1afc-9e18-49ea-b077-83d8eab463be",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    }
+  ],
+  "activeEnvironmentUid": "yY9X86ibpyGouAkDz4aIW",
+  "environments": [
+    {
+      "variables": [
+        {
+          "name": "baseUrl",
+          "value": "http://localhost:3333",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        }
+      ],
+      "name": "local"
+    }
+  ],
+  "brunoConfig": {
+    "version": "1",
+    "name": "PiuPiuwer API",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "size": 0.0023050308227539062,
+    "filesCount": 11
+  }
+}
