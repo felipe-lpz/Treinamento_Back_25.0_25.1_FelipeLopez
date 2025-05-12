@@ -1,4 +1,3 @@
-// src/services/piuService.ts
 import Piu from '../models/piu';
 import piuRepository from '../repositories/piuRepository';
 import userRepository from '../repositories/userRepository';
@@ -9,6 +8,10 @@ import userRepository from '../repositories/userRepository';
 class PiuService {
   /**
    * Cria um novo piu
+   * @param userId - ID do usuário que está criando o piu
+   * @param text - Texto do piu
+   * @returns Objeto contendo o piu criado ou mensagem de erro
+   * @complexity O(1) - Operações em Maps
    */
   public create(userId: string, text: string): { piu: Piu } | { error: string } {
     // Validar se texto está presente
@@ -16,7 +19,7 @@ class PiuService {
       return { error: 'O texto do piu é obrigatório' };
     }
 
-    // Verificar tamanho máximo (ex: 140 caracteres como no Twitter original)
+    // Verificar tamanho máximo (140 caracteres como no Twitter original)
     if (text.length > 140) {
       return { error: 'O piu não pode ter mais de 140 caracteres' };
     }
@@ -38,6 +41,8 @@ class PiuService {
 
   /**
    * Lista todos os pius
+   * @returns Array com todos os pius
+   * @complexity O(n) - Onde n é o número total de pius
    */
   public listAll(): Piu[] {
     return piuRepository.getAll();
@@ -45,7 +50,9 @@ class PiuService {
 
   /**
    * Busca um piu específico pelo ID
-   * (Feature bônus - prioridade)
+   * @param id - ID do piu a ser buscado
+   * @returns Piu encontrado ou undefined se não existir
+   * @complexity O(1) - Busca direta em Map
    */
   public findById(id: string): Piu | undefined {
     return piuRepository.getById(id);
@@ -53,7 +60,9 @@ class PiuService {
 
   /**
    * Retorna os pius de um usuário específico
-   * (Feature bônus)
+   * @param userId - ID do usuário
+   * @returns Array com os pius do usuário
+   * @complexity O(m) - Onde m é o número de pius do usuário
    */
   public getPiusByUserId(userId: string): Piu[] {
     // Verificar se o usuário existe
@@ -65,6 +74,9 @@ class PiuService {
 
   /**
    * Remove um piu
+   * @param id - ID do piu a ser removido
+   * @returns Booleano indicando sucesso da operação
+   * @complexity O(1) - Operação de remoção em Map
    */
   public delete(id: string): boolean {
     return piuRepository.delete(id);
@@ -72,7 +84,9 @@ class PiuService {
 
   /**
    * Busca pius por texto
-   * (Feature bônus)
+   * @param query - Texto a ser buscado
+   * @returns Array com pius que contenham o texto buscado
+   * @complexity O(n) - Onde n é o número total de pius (percorre todos para filtrar)
    */
   public searchPius(query: string): Piu[] {
     const allPius = piuRepository.getAll();
@@ -87,7 +101,9 @@ class PiuService {
 
   /**
    * Retorna N pius aleatórios (trending)
-   * (Feature bônus)
+   * @param count - Quantidade de pius a retornar
+   * @returns Array com pius aleatórios
+   * @complexity O(n) - Onde n é o número total de pius (para o embaralhamento)
    */
   public getRandomPius(count: number): Piu[] {
     const allPius = piuRepository.getAll();

@@ -2,7 +2,9 @@
 import { randomUUID } from 'crypto';
 import User from '../models/user';
 
-// Interfaces para transferência de dados
+/**
+ * Interface para transferência de dados na criação de usuários
+ */
 interface ICreateUserDTO {
   username: string;
   email: string;
@@ -13,6 +15,9 @@ interface ICreateUserDTO {
   about: string;
 }
 
+/**
+ * Interface para transferência de dados na atualização de usuários
+ */
 interface IUpdateUserDTO {
   id: string;
   data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>;
@@ -20,17 +25,24 @@ interface IUpdateUserDTO {
 
 /**
  * Repositório que gerencia operações de CRUD para usuários
- * Implementado com Maps para garantir performance O(1)
+ * Implementado com estruturas de dados eficientes (Maps) para
+ * garantir alta performance nas operações mais comuns.
  */
 class UserRepository {
-  // Armazenamento primário: id -> User
+  /**
+   * Armazenamento primário: id -> User
+   * Permite acesso direto aos usuários por ID - O(1)
+   */
   private users: Map<string, User>;
   
-  // Índices secundários para busca rápida O(1)
-  private emailIndex: Map<string, string>;
-  private usernameIndex: Map<string, string>;
-  private cpfIndex: Map<string, string>;
-  private phoneIndex: Map<string, string>;
+  /**
+   * Índices secundários para busca rápida O(1)
+   * Permitem verificar unicidade e buscar por campos específicos
+   */
+  private emailIndex: Map<string, string>; // email -> userId
+  private usernameIndex: Map<string, string>; // username -> userId
+  private cpfIndex: Map<string, string>; // cpf -> userId
+  private phoneIndex: Map<string, string>; // phone -> userId
 
   constructor() {
     this.users = new Map<string, User>();
@@ -42,11 +54,15 @@ class UserRepository {
 
   /**
    * Cria um novo usuário
-   * Complexidade: O(1)
+   * @param data - Dados do usuário a ser criado
+   * @returns Usuário criado
+   * @complexity O(1) - Operações em Maps
    */
   public create(data: ICreateUserDTO): User {
+    // Gera um ID único usando UUID v4
     const id = randomUUID();
     
+    // Cria a instância do usuário
     const user = new User(
       id,
       data.username,
@@ -58,7 +74,10 @@ class UserRepository {
       data.about
     );
     
+    // Armazena no Map principal
     this.users.set(id, user);
+    
+    // Atualiza os índices secundários
     this.emailIndex.set(data.email, id);
     this.usernameIndex.set(data.username, id);
     this.cpfIndex.set(data.cpf, id);
@@ -69,7 +88,8 @@ class UserRepository {
 
   /**
    * Retorna todos os usuários
-   * Complexidade: O(n)
+   * @returns Array contendo todos os usuários
+   * @complexity O(n) - Onde n é o número total de usuários
    */
   public getAll(): User[] {
     return Array.from(this.users.values());
@@ -77,14 +97,19 @@ class UserRepository {
 
   /**
    * Busca um usuário por ID
-   * Complexidade: O(1)
+   * @param id - ID do usuário a ser buscado
+   * @returns Usuário encontrado ou undefined se não existir
+   * @complexity O(1) - Busca direta em Map
    */
   public getById(id: string): User | undefined {
     return this.users.get(id);
   }
 
   /**
-   * Busca rápida por email - O(1)
+   * Busca rápida por email
+   * @param email - Email do usuário
+   * @returns Usuário encontrado ou undefined se não existir
+   * @complexity O(1) - Busca em índice secundário
    */
   public getByEmail(email: string): User | undefined {
     const id = this.emailIndex.get(email);
@@ -94,7 +119,9 @@ class UserRepository {
 
   /**
    * Verifica se existe usuário com determinado email
-   * Complexidade: O(1)
+   * @param email - Email a verificar
+   * @returns Booleano indicando existência
+   * @complexity O(1) - Verificação em índice secundário
    */
   public emailExists(email: string): boolean {
     return this.emailIndex.has(email);
@@ -102,7 +129,9 @@ class UserRepository {
 
   /**
    * Verifica se existe usuário com determinado username
-   * Complexidade: O(1)
+   * @param username - Username a verificar
+   * @returns Booleano indicando existência
+   * @complexity O(1) - Verificação em índice secundário
    */
   public usernameExists(username: string): boolean {
     return this.usernameIndex.has(username);
@@ -110,7 +139,9 @@ class UserRepository {
 
   /**
    * Verifica se existe usuário com determinado CPF
-   * Complexidade: O(1)
+   * @param cpf - CPF a verificar
+   * @returns Booleano indicando existência
+   * @complexity O(1) - Verificação em índice secundário
    */
   public cpfExists(cpf: string): boolean {
     return this.cpfIndex.has(cpf);
@@ -118,7 +149,9 @@ class UserRepository {
 
   /**
    * Verifica se existe usuário com determinado telefone
-   * Complexidade: O(1)
+   * @param phone - Telefone a verificar
+   * @returns Booleano indicando existência
+   * @complexity O(1) - Verificação em índice secundário
    */
   public phoneExists(phone: string): boolean {
     return this.phoneIndex.has(phone);
@@ -126,7 +159,9 @@ class UserRepository {
 
   /**
    * Atualiza um usuário existente
-   * Complexidade: O(1)
+   * @param data - Objeto contendo ID e dados a atualizar
+   * @returns Usuário atualizado ou null se não existir
+   * @complexity O(1) - Operações em Maps
    */
   public update(data: IUpdateUserDTO): User | null {
     const user = this.users.get(data.id);
@@ -154,13 +189,14 @@ class UserRepository {
       this.phoneIndex.set(data.data.phone, data.id);
     }
     
-    // Atualiza usuário
+    // Atualiza usuário preservando propriedades existentes
     const updatedUser = {
       ...user,
       ...data.data,
-      updatedAt: new Date()
+      updatedAt: new Date() // Atualiza a data de modificação
     };
     
+    // Salva no Map principal
     this.users.set(data.id, updatedUser);
     
     return updatedUser;
@@ -168,26 +204,24 @@ class UserRepository {
 
   /**
    * Remove um usuário
-   * Complexidade: O(1)
+   * @param id - ID do usuário a ser removido
+   * @returns Booleano indicando sucesso da operação
+   * @complexity O(1) - Operações em Maps
    */
- public delete(id: string): boolean {
-  const user = this.users.get(id);
-  
-  if (!user) return false;
-  
-  // Remover dos índices secundários
-  this.emailIndex.delete(user.email);
-  this.usernameIndex.delete(user.username);
-  this.cpfIndex.delete(user.cpf);
-  this.phoneIndex.delete(user.phone);
-  
-  // Remover o usuário do mapa principal
-  const result = this.users.delete(id);
-  
-  // Verificar se a remoção foi bem-sucedida
-  
-  return result;
-}
+  public delete(id: string): boolean {
+    const user = this.users.get(id);
+    
+    if (!user) return false;
+    
+    // Remove índices secundários
+    if (user.email) this.emailIndex.delete(user.email);
+    if (user.username) this.usernameIndex.delete(user.username);
+    if (user.cpf) this.cpfIndex.delete(user.cpf);
+    if (user.phone) this.phoneIndex.delete(user.phone);
+    
+    // Remove usuário do armazenamento principal
+    return this.users.delete(id);
+  }
 }
 
 export default new UserRepository();

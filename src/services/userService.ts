@@ -1,15 +1,25 @@
 // src/services/userService.ts
-import { randomUUID } from 'crypto';
 import User from '../models/user';
-import userRepository from '../repositories/userRepository';
 import piuRepository from '../repositories/piuRepository';
+import userRepository from '../repositories/userRepository';
+import { validateCPF, validatePhone, formatCPF, formatPhone } from '../utils/validation';
 
 /**
  * Service que implementa as regras de negócio para usuários
+ * Inclui validações de formato para CPF e telefone
  */
 class UserService {
   /**
    * Cria um novo usuário com validações
+   * @param username - Nome de usuário único
+   * @param email - Email único
+   * @param name - Nome completo
+   * @param birth - Data de nascimento
+   * @param cpf - CPF único
+   * @param phone - Telefone único
+   * @param about - Descrição do usuário
+   * @returns Objeto contendo o usuário criado ou mensagem de erro
+   * @complexity O(1) - Todas as validações e operações usam Maps
    */
   public create(
     username: string,
@@ -35,24 +45,38 @@ class UserService {
       return { error: 'Este username já está em uso' };
     }
 
+    // Validar formato do CPF
+    if (!validateCPF(cpf)) {
+      return { error: 'O CPF informado não é válido' };
+    }
+
+    // Formatar CPF e telefone
+    const formattedCPF = formatCPF(cpf);
+    const formattedPhone = phone.match(/^\(\d{2}\)\s\d{5}-\d{4}$/) ? phone : formatPhone(phone);
+    
+    // Validar formato do telefone após formatação 
+    if (!validatePhone(formattedPhone)) {
+      return { error: 'O telefone deve estar no formato (XX) XXXXX-XXXX' };
+    }
+    
     // Verificar se já existe usuário com este CPF
-    if (userRepository.cpfExists(cpf)) {
+    if (userRepository.cpfExists(formattedCPF)) {
       return { error: 'Este CPF já está cadastrado' };
     }
 
     // Verificar se já existe usuário com este telefone
-    if (userRepository.phoneExists(phone)) {
+    if (userRepository.phoneExists(formattedPhone)) {
       return { error: 'Este telefone já está cadastrado' };
     }
 
-    // Criar usuário
+    // Criar usuário com dados formatados
     const user = userRepository.create({
       username,
       email,
       name,
       birth,
-      cpf,
-      phone,
+      cpf: formattedCPF,
+      phone: formattedPhone,
       about,
     });
 
@@ -61,6 +85,8 @@ class UserService {
 
   /**
    * Lista todos os usuários
+   * @returns Array com todos os usuários
+   * @complexity O(n) - Onde n é o número total de usuários
    */
   public listAll(): User[] {
     return userRepository.getAll();
@@ -68,6 +94,9 @@ class UserService {
 
   /**
    * Busca um usuário pelo ID
+   * @param id - ID do usuário
+   * @returns Usuário encontrado ou undefined se não existir
+   * @complexity O(1) - Busca direta em Map
    */
   public findById(id: string): User | undefined {
     return userRepository.getById(id);
@@ -75,6 +104,10 @@ class UserService {
 
   /**
    * Atualiza os dados de um usuário
+   * @param id - ID do usuário a ser atualizado
+   * @param data - Campos a serem atualizados
+   * @returns Objeto contendo o usuário atualizado ou mensagem de erro
+   * @complexity O(1) - Todas as validações e operações usam Maps
    */
   public update(
     id: string,
@@ -100,15 +133,38 @@ class UserService {
     }
 
     if (data.cpf && data.cpf !== existingUser.cpf) {
-      if (userRepository.cpfExists(data.cpf)) {
+      // Validar formato do CPF
+      if (!validateCPF(data.cpf)) {
+        return { error: 'O CPF informado não é válido' };
+      }
+      
+      // Formatar CPF
+      const formattedCPF = formatCPF(data.cpf);
+      
+      if (userRepository.cpfExists(formattedCPF)) {
         return { error: 'Este CPF já está cadastrado' };
       }
+      
+      // Atualizar para o formato correto
+      data.cpf = formattedCPF;
     }
 
     if (data.phone && data.phone !== existingUser.phone) {
-      if (userRepository.phoneExists(data.phone)) {
+      // Formatar telefone se necessário
+      const formattedPhone = data.phone.match(/^\(\d{2}\)\s\d{5}-\d{4}$/) ? 
+        data.phone : formatPhone(data.phone);
+      
+      // Validar formato do telefone após formatação
+      if (!validatePhone(formattedPhone)) {
+        return { error: 'O telefone deve estar no formato (XX) XXXXX-XXXX' };
+      }
+      
+      if (userRepository.phoneExists(formattedPhone)) {
         return { error: 'Este telefone já está cadastrado' };
       }
+      
+      // Atualizar para o formato correto
+      data.phone = formattedPhone;
     }
 
     // Atualizar usuário
@@ -125,41 +181,27 @@ class UserService {
   }
 
   /**
-   * Remove um usuário
+   * Remove um usuário e todos os seus pius (deleção em cascata)
+   * @param id - ID do usuário a ser removido
+   * @returns Booleano indicando sucesso da operação
+   * @complexity O(n) - Onde n é o número de pius do usuário
    */
-  // src/services/userService.ts
-public delete(id: string): boolean {
-  // Verificar se o usuário existe
-  const existingUser = userRepository.getById(id);
-  if (!existingUser) {
-    console.log(`Usuário ${id} não encontrado para exclusão.`);
-    return false;
-  }
+  public delete(id: string): boolean {
+    // Verificar se o usuário existe
+    const existingUser = userRepository.getById(id);
+    if (!existingUser) return false;
 
-  console.log(`Iniciando exclusão do usuário ${id} (${existingUser.username}).`);
-  
-  // Excluir todos os pius do usuário
-  const userPius = piuRepository.getByUserId(id);
-  console.log(`Encontrados ${userPius.length} pius para excluir.`);
-  
-  // Excluir cada piu individualmente
-  userPius.forEach(piu => {
-    const deleted = piuRepository.delete(piu.id);
-    console.log(`Piu ${piu.id} excluído: ${deleted}`);
-  });
-  
-  // Verificar se todos os pius foram excluídos
-  const remainingPius = piuRepository.getByUserId(id);
-  if (remainingPius.length > 0) {
-    console.log(`AVISO: Ainda restam ${remainingPius.length} pius do usuário após tentativa de exclusão.`);
+    // Obter todos os pius do usuário
+    const userPius = piuRepository.getByUserId(id);
+    
+    // Deletar todos os pius do usuário
+    userPius.forEach(piu => {
+      piuRepository.delete(piu.id);
+    });
+    
+    // Deletar o usuário
+    return userRepository.delete(id);
   }
-  
-  // Deletar o usuário
-  const userDeleted = userRepository.delete(id);
-  console.log(`Usuário ${id} excluído: ${userDeleted}`);
-  
-  return userDeleted;
-}
 }
 
 export default new UserService();

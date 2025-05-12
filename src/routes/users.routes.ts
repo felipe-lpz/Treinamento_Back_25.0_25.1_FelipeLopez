@@ -1,12 +1,15 @@
-// src/routes/users.routes.ts
 import { Router } from 'express';
+
 import userService from '../services/userService';
 
 const usersRouter = Router();
 
 /**
  * Rota: POST /users
- * Cria um novo usuário
+ * Descrição: Cria um novo usuário
+ * Complexidade: O(1) - Operações em Maps
+ * Requisição: { username, email, name, birth, cpf, phone, about }
+ * Resposta: 201 Created (usuário criado) ou 400 Bad Request (erro)
  */
 usersRouter.post('/', (req, res) => {
   const { username, email, name, birth, cpf, phone, about } = req.body;
@@ -40,7 +43,9 @@ usersRouter.post('/', (req, res) => {
 
 /**
  * Rota: GET /users
- * Lista todos os usuários
+ * Descrição: Lista todos os usuários
+ * Complexidade: O(n) - Onde n é o número total de usuários
+ * Resposta: 200 OK (Array de usuários)
  */
 usersRouter.get('/', (req, res) => {
   const users = userService.listAll();
@@ -49,7 +54,9 @@ usersRouter.get('/', (req, res) => {
 
 /**
  * Rota: GET /users/:id
- * Busca um usuário pelo ID
+ * Descrição: Busca um usuário pelo ID
+ * Complexidade: O(1) - Busca direta em Map
+ * Resposta: 200 OK (usuário encontrado) ou 404 Not Found
  */
 usersRouter.get('/:id', (req, res) => {
   const user = userService.findById(req.params.id);
@@ -63,7 +70,10 @@ usersRouter.get('/:id', (req, res) => {
 
 /**
  * Rota: PATCH /users/:id
- * Atualiza um usuário
+ * Descrição: Atualiza um usuário
+ * Complexidade: O(1) - Operações em Maps
+ * Requisição: Campos a serem atualizados (todos opcionais)
+ * Resposta: 200 OK (usuário atualizado) ou 400 Bad Request (erro)
  */
 usersRouter.patch('/:id', (req, res) => {
   const { username, email, name, birth, cpf, phone, about } = req.body;
@@ -90,7 +100,9 @@ usersRouter.patch('/:id', (req, res) => {
 
 /**
  * Rota: DELETE /users/:id
- * Remove um usuário
+ * Descrição: Remove um usuário
+ * Complexidade: O(1) - Operação de remoção em Map
+ * Resposta: 204 No Content (sucesso) ou 404 Not Found
  */
 usersRouter.delete('/:id', (req, res) => {
   const deleted = userService.delete(req.params.id);
