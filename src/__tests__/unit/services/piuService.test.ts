@@ -1,14 +1,13 @@
 import piuRepository from '../../../repositories/piuRepository';
 import userRepository from '../../../repositories/userRepository';
 import piuService from '../../../services/piuService';
-// Removemos a importação de Piu que não é utilizada
+
 
 // Mock dos repositórios
 jest.mock('../../../repositories/piuRepository');
 jest.mock('../../../repositories/userRepository');
 
 describe('PiuService', () => {
-  // Reset dos mocks antes de cada teste
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -49,10 +48,8 @@ describe('PiuService', () => {
       const result = piuService.create('user-123', '');
 
       // Assert
-      // Primeiro verificamos que existe a propriedade 'error'
       expect(result).toHaveProperty('error');
 
-      // Depois fazemos uma asserção de tipo para o TypeScript
       if ('error' in result) {
         expect(result.error).toContain('texto do piu é obrigatório');
       }
@@ -70,7 +67,6 @@ describe('PiuService', () => {
       // Assert
       expect(result).toHaveProperty('error');
 
-      // Asserção de tipo para o TypeScript
       if ('error' in result) {
         expect(result.error).toContain('não pode ter mais de 140 caracteres');
       }
@@ -88,7 +84,6 @@ describe('PiuService', () => {
       // Assert
       expect(result).toHaveProperty('error');
 
-      // Asserção de tipo para o TypeScript
       if ('error' in result) {
         expect(result.error).toContain('Usuário não encontrado');
       }

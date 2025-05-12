@@ -1,8 +1,6 @@
-// src/repositories/userRepository.ts
 import { randomUUID } from 'crypto';
 
 import User from '../models/user';
-
 /**
  * Interface para transferência de dados na criação de usuários
  */
@@ -23,7 +21,6 @@ interface IUpdateUserDTO {
   id: string;
   data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>;
 }
-
 /**
  * Repositório que gerencia operações de CRUD para usuários
  * Implementado com estruturas de dados eficientes (Maps) para
@@ -74,10 +71,8 @@ class UserRepository {
       data.phone,
       data.about
     );
-
     // Armazena no Map principal
     this.users.set(id, user);
-
     // Atualiza os índices secundários
     this.emailIndex.set(data.email, id);
     this.usernameIndex.set(data.username, id);
@@ -86,7 +81,6 @@ class UserRepository {
 
     return user;
   }
-
   /**
    * Retorna todos os usuários
    * @returns Array contendo todos os usuários
@@ -95,7 +89,6 @@ class UserRepository {
   public getAll(): User[] {
     return Array.from(this.users.values());
   }
-
   /**
    * Busca um usuário por ID
    * @param id - ID do usuário a ser buscado

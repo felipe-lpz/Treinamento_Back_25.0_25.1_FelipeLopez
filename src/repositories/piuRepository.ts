@@ -40,13 +40,8 @@ class PiuRepository {
    * @complexity O(1) - Operações em Map e Set
    */
   public create(data: ICreatePiuDTO): Piu {
-    // Gera um ID único usando UUID v4
     const id = randomUUID();
-
-    // Cria a instância do piu
     const piu = new Piu(id, data.userId, data.text);
-
-    // Armazena no Map principal
     this.pius.set(id, piu);
 
     // Adiciona ao índice de pius por usuário
@@ -58,7 +53,6 @@ class PiuRepository {
 
     return piu;
   }
-
   /**
    * Retorna todos os pius
    * @returns Array contendo todos os pius
@@ -67,7 +61,6 @@ class PiuRepository {
   public getAll(): Piu[] {
     return Array.from(this.pius.values());
   }
-
   /**
    * Busca um piu pelo ID
    * @param id - ID do piu a ser buscado
@@ -77,7 +70,6 @@ class PiuRepository {
   public getById(id: string): Piu | undefined {
     return this.pius.get(id);
   }
-
   /**
    * Busca pius de um usuário específico
    * @param userId - ID do usuário
@@ -86,15 +78,10 @@ class PiuRepository {
    */
   public getByUserId(userId: string): Piu[] {
     const piuIds = this.userPiusIndex.get(userId);
-
     if (!piuIds) return [];
-
     // Converte o Set para Array e busca cada piu
-    // O uso de ! (non-null assertion) é seguro aqui pois sabemos
-    // que os IDs estão no Map principal
     return Array.from(piuIds).map(id => this.pius.get(id)!);
   }
-
   /**
    * Remove um piu
    * @param id - ID do piu a ser removido
@@ -103,13 +90,10 @@ class PiuRepository {
    */
   public delete(id: string): boolean {
     const piu = this.pius.get(id);
-
     if (!piu) return false;
-
     // Remove do índice de pius por usuário
     const userPius = this.userPiusIndex.get(piu.userId);
     userPius?.delete(id);
-
     // Remove o piu do armazenamento principal
     return this.pius.delete(id);
   }

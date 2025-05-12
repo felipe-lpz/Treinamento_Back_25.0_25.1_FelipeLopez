@@ -3,7 +3,6 @@ import { Router } from 'express';
 import piuService from '../services/piuService';
 
 const piusRouter = Router();
-
 /**
  * Rota: POST /pius
  * Descrição: Cria um novo piu

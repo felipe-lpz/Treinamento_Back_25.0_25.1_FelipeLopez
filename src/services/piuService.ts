@@ -22,7 +22,7 @@ class PiuService {
       return { error: 'O texto do piu é obrigatório' };
     }
 
-    // Verificar tamanho máximo (140 caracteres como no Twitter original)
+    // Verificar tamanho máximo (140 caracteres)
     if (text.length > 140) {
       return { error: 'O piu não pode ter mais de 140 caracteres' };
     }
@@ -93,10 +93,7 @@ class PiuService {
    */
   public searchPius(query: string): Piu[] {
     const allPius = piuRepository.getAll();
-
-    // Busca case insensitive
     const lowercaseQuery = query.toLowerCase();
-
     return allPius.filter(piu =>
       piu.text.toLowerCase().includes(lowercaseQuery)
     );
@@ -110,19 +107,16 @@ class PiuService {
    */
   public getRandomPius(count: number): Piu[] {
     const allPius = piuRepository.getAll();
-
     // Se houver menos pius que o solicitado, retorna todos
     if (allPius.length <= count) {
       return allPius;
     }
-
-    // Embaralha o array usando o algoritmo de Fisher-Yates (eficiente)
+    // Embaralha o array
     const shuffled = [...allPius];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-
     // Retorna os primeiros N elementos
     return shuffled.slice(0, count);
   }

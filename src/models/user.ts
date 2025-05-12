@@ -9,56 +9,17 @@
  * - Metadados (datas de criação/atualização)
  */
 class User {
-  /**
-   * Identificador único do usuário
-   */
+
   id: string;
-
-  /**
-   * Nome de usuário único (handle, ex: @usuario)
-   */
   username: string;
-
-  /**
-   * Email único do usuário
-   */
   email: string;
-
-  /**
-   * Nome completo do usuário
-   */
   name: string;
-
-  /**
-   * Data de nascimento
-   */
   birth: Date;
-
-  /**
-   * CPF único
-   */
   cpf: string;
-
-  /**
-   * Telefone único
-   */
   phone: string;
-
-  /**
-   * Descrição/biografia do usuário
-   */
   about: string;
-
-  /**
-   * Data de criação do usuário
-   */
   createdAt: Date;
-
-  /**
-   * Data da última atualização do usuário
-   */
   updatedAt: Date;
-
   /**
    * Cria uma nova instância de User
    * @param id - Identificador único

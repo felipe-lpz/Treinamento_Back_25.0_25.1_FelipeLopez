@@ -8,37 +8,12 @@
  * - Estatísticas (likes)
  */
 class Piu {
-  /**
-   * Identificador único do piu
-   */
   id: string;
-
-  /**
-   * ID do usuário que criou o piu
-   */
   userId: string;
-
-  /**
-   * Conteúdo do piu (limitado a 140 caracteres)
-   */
   text: string;
-
-  /**
-   * Data de criação do piu
-   */
   createdAt: Date;
-
-  /**
-   * Data da última atualização do piu
-   * Obs: Inicialmente igual à data de criação
-   */
   updatedAt: Date;
-
-  /**
-   * Contador de likes recebidos
-   */
   likes: number;
-
   /**
    * Cria uma nova instância de Piu
    * @param id - Identificador único

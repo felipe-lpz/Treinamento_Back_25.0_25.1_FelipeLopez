@@ -7,7 +7,6 @@ jest.mock('../../../repositories/userRepository');
 jest.mock('../../../repositories/piuRepository');
 
 describe('UserService', () => {
-  // Reset dos mocks antes de cada teste
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -53,8 +52,8 @@ describe('UserService', () => {
         expect.objectContaining({
           username: mockUser.username,
           email: mockUser.email,
-          cpf: '123.456.789-09', // Deve estar formatado
-          phone: '(11) 98765-4321', // Deve estar formatado
+          cpf: '123.456.789-09', 
+          phone: '(11) 98765-4321', 
         })
       );
     });
@@ -83,7 +82,6 @@ describe('UserService', () => {
       expect(userRepository.create).not.toHaveBeenCalled();
     });
 
-    // Adicione mais testes para os outros casos de erro...
   });
 
   describe('delete', () => {
@@ -126,5 +124,4 @@ describe('UserService', () => {
     });
   });
 
-  // Adicione testes para update, listAll, findById...
 });

@@ -12,15 +12,11 @@ describe('PiuRepository', () => {
   beforeEach(() => {
     // Reset do repositório para cada teste
     jest.clearAllMocks();
-
-    // Limpar dados - adicionamos os comentários para ignorar o erro de ESLint
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (piuRepository as any).pius = new Map();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (piuRepository as any).userPiusIndex = new Map();
   });
-
-  // Resto do código permanece igual...
 
   describe('create', () => {
     it('should create a new piu', () => {
@@ -45,8 +41,6 @@ describe('PiuRepository', () => {
       expect(piu.likes).toBe(0);
     });
 
-    // Resto dos testes permanece igual...
   });
 
-  // Resto dos blocos de testes permanece igual...
 });

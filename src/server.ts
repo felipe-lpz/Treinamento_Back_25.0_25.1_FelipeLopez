@@ -1,16 +1,13 @@
-// src/server.ts
 import express, { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan';
 
 import routes from './routes';
 
-// Configuração da porta (permite override via variável de ambiente)
+// Configuração da porta 
 const PORT = process.env.PORT || 3333;
 
 // Inicializa a aplicação Express
 const app = express();
-
-// Middleware para interpretar JSON nas requisições
 app.use(express.json());
 
 // Middleware para interpretar URL-encoded (ex: formulários)

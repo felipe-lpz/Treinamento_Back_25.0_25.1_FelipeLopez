@@ -15,16 +15,9 @@ import usersRouter from './users.routes';
  * - /pius: Operações CRUD para pius (tweets)
  */
 const routes = Router();
-
-// Aplica o roteador de usuários no prefixo /users
 routes.use('/users', usersRouter);
-
-// Aplica o roteador de pius no prefixo /pius
 routes.use('/pius', piusRouter);
 
-/**
- * Documentação simplificada da API (disponível no endpoint /api-info)
- */
 routes.get('/api-info', (req, res) => {
   return res.json({
     name: 'API PiuPiuwer',

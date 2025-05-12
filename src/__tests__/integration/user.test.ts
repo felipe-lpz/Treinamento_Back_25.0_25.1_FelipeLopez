@@ -5,7 +5,7 @@ import app from '../../server';
 
 jest.mock('../../repositories/userRepository');
 
-// Criamos uma instância única do supertest com o app
+
 const testRequest = request(app);
 
 describe('User Routes', () => {
@@ -60,7 +60,6 @@ describe('User Routes', () => {
         .post('/users')
         .send({
           username: 'testuser',
-          // Missing other required fields
         })
         .expect(400);
 
@@ -68,8 +67,6 @@ describe('User Routes', () => {
       expect(response.body).toHaveProperty('message');
       expect(userRepository.create).not.toHaveBeenCalled();
     });
-
-    // Adicione mais testes para os outros casos de erro...
   });
 
   describe('GET /users', () => {
@@ -92,15 +89,11 @@ describe('User Routes', () => {
 
       (userRepository.getAll as jest.Mock).mockReturnValue(mockUsers);
 
-      // Act - usando testRequest
       const response = await testRequest.get('/users').expect(200);
-
       // Assert
       expect(response.body).toHaveLength(2);
       expect(response.body[0].id).toBe('user1');
       expect(response.body[1].id).toBe('user2');
     });
   });
-
-  // Continue com os outros blocos de teste usando o testRequest em vez de request(app)
 });

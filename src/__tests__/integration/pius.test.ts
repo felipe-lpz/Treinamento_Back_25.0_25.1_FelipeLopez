@@ -11,24 +11,24 @@ jest.mock('../../repositories/userRepository');
 const testRequest = request(app);
 
 describe('Piu Routes', () => {
-  beforeEach(() => {
+beforeEach(() => {
     jest.clearAllMocks();
-  });
+});
 
-  describe('POST /pius', () => {
+describe('POST /pius', () => {
     it('should create a new piu', async () => {
       // Arrange
-      const piuData = {
+    const piuData = {
         userId: 'user-123',
         text: 'Hello, world!',
-      };
+    };
 
-      const mockUser = {
+    const mockUser = {
         id: piuData.userId,
         name: 'Test User',
-      };
+    };
 
-      const mockPiu = {
+    const mockPiu = {
         id: 'piu-123',
         ...piuData,
         createdAt: new Date(),
@@ -57,12 +57,9 @@ describe('Piu Routes', () => {
       const response = await testRequest
         .post('/pius')
         .send({
-          // Missing required fields
           userId: 'user-123',
         })
         .expect(400);
-
-      // Assert
       expect(response.body).toHaveProperty('message');
       expect(piuRepository.create).not.toHaveBeenCalled();
     });
@@ -70,8 +67,6 @@ describe('Piu Routes', () => {
     it('should return 400 for non-existent user', async () => {
       // Arrange
       (userRepository.getById as jest.Mock).mockReturnValue(undefined);
-
-      // Act - usando testRequest
       const response = await testRequest
         .post('/pius')
         .send({
@@ -79,8 +74,6 @@ describe('Piu Routes', () => {
           text: 'Hello',
         })
         .expect(400);
-
-      // Assert
       expect(response.body).toHaveProperty('message');
       expect(response.body.message).toContain('Usuário não encontrado');
       expect(piuRepository.create).not.toHaveBeenCalled();
@@ -120,8 +113,6 @@ describe('Piu Routes', () => {
       expect(response.body[1].id).toBe('piu-2');
     });
   });
-
-  // Continuando com o resto dos testes...
   describe('GET /pius/:id', () => {
     it('should return a piu by id', async () => {
       // Arrange
@@ -156,6 +147,4 @@ describe('Piu Routes', () => {
       expect(response.body.message).toContain('Piu não encontrado');
     });
   });
-
-  // Continue com os outros blocos de teste usando o testRequest em vez de request(app)
 });

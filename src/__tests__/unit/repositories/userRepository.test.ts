@@ -11,8 +11,6 @@ describe('UserRepository', () => {
   beforeEach(() => {
     // Reset do repositório para cada teste
     jest.clearAllMocks();
-
-    // Limpar dados - adicionamos os comentários para ignorar o erro de ESLint
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (userRepository as any).users = new Map();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -267,9 +265,7 @@ describe('UserRepository', () => {
       expect(updatedUser?.username).toBe('newusername');
       expect(updatedUser?.name).toBe('New Name');
       expect(updatedUser?.about).toBe('New bio');
-      expect(updatedUser?.email).toBe('old@example.com'); // Não alterado
-
-      // Verificamos apenas que updatedAt é uma data válida em vez de comparar com createdAt
+      expect(updatedUser?.email).toBe('old@example.com'); 
       expect(updatedUser?.updatedAt).toBeInstanceOf(Date);
     });
 
